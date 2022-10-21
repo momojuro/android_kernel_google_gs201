@@ -841,7 +841,7 @@ static void ufshpb_read_to_handler(struct work_struct *work)
 	clear_bit(TIMEOUT_WORK_RUNNING, &hpb->work_data_bits);
 
 	poll = hpb->params.timeout_polling_interval_ms;
-	schedule_delayed_work(&hpb->ufshpb_read_to_work,
+	queue_delayed_work(system_power_efficient_wq, &hpb->ufshpb_read_to_work,
 			      msecs_to_jiffies(poll));
 }
 
@@ -2203,7 +2203,7 @@ static int ufshpb_lu_hpb_init(struct ufs_hba *hba, struct ufshpb_lu *hpb)
 		unsigned int poll;
 
 		poll = hpb->params.timeout_polling_interval_ms;
-		schedule_delayed_work(&hpb->ufshpb_read_to_work,
+		queue_delayed_work(system_power_efficient_wq, &hpb->ufshpb_read_to_work,
 				      msecs_to_jiffies(poll));
 	}
 
@@ -2372,7 +2372,7 @@ void ufshpb_resume(struct ufs_hba *hba)
 		if (hpb->is_hcm) {
 			unsigned int poll = hpb->params.timeout_polling_interval_ms;
 
-			schedule_delayed_work(&hpb->ufshpb_read_to_work, msecs_to_jiffies(poll));
+			queue_delayed_work(system_power_efficient_wq, &hpb->ufshpb_read_to_work, msecs_to_jiffies(poll));
 		}
 	}
 }
