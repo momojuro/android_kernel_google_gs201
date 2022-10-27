@@ -1592,7 +1592,7 @@ static void wl_add_remove_pm_enable_work(struct bcm_cfg80211 *cfg,
 		if (dhd->up)
 #endif
 		{
-			if (schedule_delayed_work(&cfg->pm_enable_work,
+			if (queue_delayed_work(system_power_efficient_wq, &cfg->pm_enable_work,
 				msecs_to_jiffies((const unsigned int)wq_duration))) {
 
 #if defined(BCMDONGLEHOST)
@@ -2609,7 +2609,7 @@ fail:
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0))
 	if (cfg->wiphy_lock_held) {
-		schedule_delayed_work(&cfg->remove_iface_work, 0);
+		queue_delayed_work(system_power_efficient_wq, &cfg->remove_iface_work, 0);
 	} else
 #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0) */
 	{
@@ -23885,7 +23885,7 @@ bool wl_cfg80211_check_in_progress(struct net_device *dev)
 					reason, GET_SEC_USEC(start_time), GET_SEC_USEC(curtime)));
 			/* Force clear states and send a hang event */
 			cfg->recovery_state = reason;
-			if (!schedule_delayed_work(&cfg->recovery_work,
+			if (!queue_delayed_work(system_power_efficient_wq, &cfg->recovery_work,
 				msecs_to_jiffies((const unsigned int)10))) {
 				/* Unexpected. If it happens, don't block suspend */
 				WL_ERR(("recovery work schedule failed!!\n"));
