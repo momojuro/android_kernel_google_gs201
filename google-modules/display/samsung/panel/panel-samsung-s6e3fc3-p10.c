@@ -900,7 +900,7 @@ const struct exynos_panel_desc samsung_s6e3fc3_p10 = {
 	.brt_capability = &s6e3fc3_p10_brightness_capability,
 	.dbv_extra_frame = true,
 	/* supported HDR format bitmask : 1(DOLBY_VISION), 2(HDR10), 3(HLG) */
-	.hdr_formats = BIT(2) | BIT(3),
+	.hdr_formats = BIT(1) | BIT(2) | BIT(3),
 	.max_luminance = 10000000,
 	.max_avg_luminance = 1200000,
 	.min_luminance = 5,
